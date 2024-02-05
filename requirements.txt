@@ -2,6 +2,11 @@ pillow
 matplotlib
 geopy
 requests
+
+# Adding distribute and setuptools to try make dotenv install
+# 
+setuptools
+distribute
 dotenv
 
 sqlite3
