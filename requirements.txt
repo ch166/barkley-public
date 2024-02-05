@@ -5,5 +5,5 @@ requests
 dotenv
 
 sqlite3
-urllib
+urllib3
 pickle
