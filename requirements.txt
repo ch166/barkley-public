@@ -5,9 +5,9 @@ requests
 
 # Adding distribute and setuptools to try make dotenv install
 # 
-setuptools
-distribute
-dotenv
+# setuptools
+# distribute
+python-dotenv
 
 sqlite3
 urllib3
