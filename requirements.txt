@@ -1,0 +1,9 @@
+PIL
+matplotlib.pylpot
+geopy
+requests
+dotenv
+
+sqlite3
+urllib
+pickle
