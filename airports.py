@@ -41,7 +41,7 @@ class Airport:
         """Get last updated time"""
         return self.create_time
 
-    def fluttered(self):
+    def airport_fluttered(self):
         """True if this airport record is marked as fluttered"""
         result = False
         if self.flutter_sent > 0:
