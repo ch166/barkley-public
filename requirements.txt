@@ -9,6 +9,6 @@ requests
 # distribute
 python-dotenv
 
-sqlite3
+# sqlite3
 urllib3
-pickle
+# pickle
