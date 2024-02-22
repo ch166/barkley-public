@@ -6,42 +6,39 @@
 
 """
 
-# Standard Library Imports
-import os
-
-from dotenv import load_dotenv
-
-# import sys
-import time
-import random
 import datetime
-import pickle
-import logging
-import logging.handlers
-
 
 # Application Specific Imports
 import json
+import logging.handlers
 
-# import atproto
+# Standard Library Imports
+import os
+import pickle
+import random
 
-from geopy import distance
-from geopy import point
+# import sys
+import time
 
 # Pillow Python Image Manipulation
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from dotenv import load_dotenv
+from geopy import distance
+from geopy import point
+
+import aircraft
+import airports
+import bluesky
+import debug
+import geocalc
+import global_aircraft_db
 
 # Barkley Local
 import settings
-import aircraft
-import airports
-import debug
-import global_aircraft_db
-import geocalc
 
-import bluesky
+# import atproto
 
 #
 # Setup Logging
@@ -51,14 +48,15 @@ logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter(
     "%(asctime)s - \
-                              %(name)s - \
-                              %(levelname)s - \
-                              %(message)s"
+    %(name)s - \
+    %(levelname)s - \
+    %(message)s"
 )
 syslog_handler = logging.handlers.SysLogHandler("/dev/log")
 syslog_handler.setLevel(logging.DEBUG)
 # logger.setFormatter(formatter)
 logger.addHandler(syslog_handler)
+
 
 # Commenting out for now
 # def generate_map_image(aircraft_record, hexcode):
@@ -104,7 +102,7 @@ def generate_temp_image(aircraft_record, hexcode):
     return image_file_str
 
 
-def publish_flutter(bluesky_obj, post_str, url_start, url_end, url_string):
+def publish_flutter(bluesky_obj, post_str):
     """
     Publish fully formed post to BlueSky.
     Do the necessary error handling and rate limiting
@@ -185,7 +183,7 @@ def create_flutter(craft, airport_dist):
         post_str = "**EMER** "
     else:
         post_str = ""
-    post_str += "#" + craft.flight()
+    post_str += craft.flight()
     if (craft.get_manufacturer() is not None) and (craft.get_model() is not None):
         post_str += " (" + craft.get_manufacturer() + "/" + craft.get_model() + ")"
     if craft.squawk() is not None:
@@ -211,14 +209,9 @@ def create_flutter(craft, airport_dist):
             post_str += " Dscnt:" + str(craft_vsi)
         post_str += "ft/min, "
 
-    url_str = "https://flightaware.com/live/flight/" + craft.flight()
-    url_start = len(post_str)
-    url_end = url_start + len(url_str)
-    post_str += url_str
-    # post_str += "https://flightradar24.com/" + craft.flight()
-    # post_str += " https://flightradar24.com/" + craft.flight()
+    post_str += ", https://flightaware.com/live/flight/" + craft.flight()
     post_str += " #adsb #piaware"
-    return (url_start, url_end, post_str, url_str)
+    return post_str
 
 
 def distance_to_airport(airport, lat, lon):
@@ -295,11 +288,11 @@ def flutter_known_aircraft(known_aircraft, airspace_db, bluesky_obj):
             + str(aprt_dist)
             + "m"
         )
-        (url_start, url_end, post_str, url_string) = create_flutter(craft, aprt_dist)
+        post_str= create_flutter(craft, aprt_dist)
         # debug.dprint("Aircraft:" + craft.flight() +" Direction :" + craft.cardinal() )
         # logger.info(f"Skipping post of {post_str}")
         flutter_success = publish_flutter(
-            bluesky_obj, post_str, url_start, url_end, url_string
+            bluesky_obj, post_str
         )
         if flutter_success:
             craft.mark_as_fluttered()
@@ -414,8 +407,8 @@ def main():
 
     load_dotenv()
 
-    BLUESKY_ACCT = os.getenv('BLUESKY_ACCT')
-    BLUESKY_AUTH = os.getenv('BLUESKY_AUTH')
+    BLUESKY_ACCT = os.getenv("BLUESKY_ACCT")
+    BLUESKY_AUTH = os.getenv("BLUESKY_AUTH")
 
     debug.dprint("Logging into bluesky")
     bluesky_obj = bluesky.BlueSky(BLUESKY_ACCT, BLUESKY_AUTH)

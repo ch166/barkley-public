@@ -8,6 +8,7 @@ requests
 # setuptools
 # distribute
 python-dotenv
+atproto
 
 # sqlite3
 urllib3
