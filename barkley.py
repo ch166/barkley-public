@@ -114,7 +114,7 @@ def publish_flutter(bluesky_obj, post_str):
         # debug.dprint("Ready to post")
         try:
             status = bluesky_obj.bluesky_flutter(
-                post_str, url_start, url_end, url_string
+                post_str,
             )
             debug.dprint("==== post Status ====")
             debug.dprint(status)
@@ -288,12 +288,10 @@ def flutter_known_aircraft(known_aircraft, airspace_db, bluesky_obj):
             + str(aprt_dist)
             + "m"
         )
-        post_str= create_flutter(craft, aprt_dist)
+        post_str = create_flutter(craft, aprt_dist)
         # debug.dprint("Aircraft:" + craft.flight() +" Direction :" + craft.cardinal() )
         # logger.info(f"Skipping post of {post_str}")
-        flutter_success = publish_flutter(
-            bluesky_obj, post_str
-        )
+        flutter_success = publish_flutter(bluesky_obj, post_str)
         if flutter_success:
             craft.mark_as_fluttered()
 
