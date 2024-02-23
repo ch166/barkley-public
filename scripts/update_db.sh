@@ -2,6 +2,8 @@
 
 wget https://opensky-network.org/datasets/metadata/aircraftDatabase.csv
 
+# FIXME: Need to find and eliminate duplicate records or the sqlite process
+# will fail to create an index
 
 sqlite3 < load.sql
 

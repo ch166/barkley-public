@@ -1,0 +1,12 @@
+[Unit]
+Description=Barkley
+After=network-online.target
+Documentation=man:barkley
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/barkley
+ExecStart=/opt/barkley-venv/bin/python3 /opt/barkley/barkley.py
+
+[Install]
+WantedBy=multi-user.target
