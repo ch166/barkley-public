@@ -15,4 +15,6 @@ $ python -m venv /opt/barkley-venv
 The update_db.sh script needs to be run every so often to get updated ADSB ID data for aircraft.
 This script creates the sqlite file - and the resulting file needs to be moved to the data/ directory.
 
-
+# Auth
+Copy the sample.env file into the running directory as .env
+Update the values to match your account ID / application password
