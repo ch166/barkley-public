@@ -1,5 +1,5 @@
 # barkley
-ADS-B bot ; reporting interesting airplane traffic information
+ADS-B bot ; reporting interesting airplane traffic information; reading live data from piaware dump-1090 datasets
 
 
 Installation is currently manual - requires a couple of no-yet-automated steps.
